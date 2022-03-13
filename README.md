@@ -16,62 +16,62 @@ Mars Hemispheres: Cerberus Hemisphere, Schiaparelli Hemisphere, Syrtis Major Hem
 
 The following code was inserted to add the Mars hemispheres on to the website: 
 
-def mars_hemisphere(browser):
-    # Visit URL
-    url = 'https://marshemispheres.com/'
-    browser.visit(url)
+    def mars_hemisphere(browser):
+        # Visit URL
+        url = 'https://marshemispheres.com/'
+        browser.visit(url)
 
-    # Create a list to hold the images and titles.
-    hemisphere_image_urls = []
+        # Create a list to hold the images and titles.
+        hemisphere_image_urls = []
 
-    # 3. Write code to retrieve the image urls and titles for each hemisphere.
-    for hem in range(4):
-        # Browse through each article
-        browser.links.find_by_partial_text('Hemisphere')[hem].click()
-        
-        # Parse the HTML
-        html = browser.html
-        hem_soup = soup(html,'html.parser')
-        
-        # Scraping
-        title = hem_soup.find('h2', class_='title').text
-        img_url = hem_soup.find('li').a.get('href')
-        
-        # Store findings into a dictionary and append to list
-        hemispheres = {}
-        hemispheres['img_url'] = f'https://marshemispheres.com/{img_url}'
-        hemispheres['title'] = title
-        hemisphere_image_urls.append(hemispheres)
-        
-        # Browse back to repeat
-        browser.back()
+        # 3. Write code to retrieve the image urls and titles for each hemisphere.
+        for hem in range(4):
+            # Browse through each article
+            browser.links.find_by_partial_text('Hemisphere')[hem].click()
+            
+            # Parse the HTML
+            html = browser.html
+            hem_soup = soup(html,'html.parser')
+            
+            # Scraping
+            title = hem_soup.find('h2', class_='title').text
+            img_url = hem_soup.find('li').a.get('href')
+            
+            # Store findings into a dictionary and append to list
+            hemispheres = {}
+            hemispheres['img_url'] = f'https://marshemispheres.com/{img_url}'
+            hemispheres['title'] = title
+            hemisphere_image_urls.append(hemispheres)
+            
+            # Browse back to repeat
+            browser.back()
 
-    return hemisphere_image_urls
+        return hemisphere_image_urls
 
 This is the code in app.py:
 
-from flask import Flask, render_template, url_for
-from flask_pymongo import PyMongo
-import scraping
+    from flask import Flask, render_template, url_for
+    from flask_pymongo import PyMongo
+    import scraping
 
 
-app = Flask(__name__)
+    app = Flask(__name__)
 
-# Use flask_PyMongo to set up mongo connection
-app.config["MONGO_URI"] = "mongodb://localhost:27017/mars_app"
-mongo = PyMongo(app)
+    # Use flask_PyMongo to set up mongo connection
+    app.config["MONGO_URI"] = "mongodb://localhost:27017/mars_app"
+    mongo = PyMongo(app)
 
-@app.route("/")
-def index():
-    mars = mongo.db.mars.find_one()
-    return render_template("index.html", mars=mars)
+    @app.route("/")
+    def index():
+        mars = mongo.db.mars.find_one()
+        return render_template("index.html", mars=mars)
 
-@app.route("/scrape")
-def scrape():
-    mars = mongo.db.mars    
-    mars_data = scraping.scrape_all()
-    mars.update_one({}, {"$set": mars_data}, upsert=True)
-    return "Scraping Successful!"
-    
-if __name__ == "__main__":
-    app.run(debug=True)
+    @app.route("/scrape")
+    def scrape():
+        mars = mongo.db.mars    
+        mars_data = scraping.scrape_all()
+        mars.update_one({}, {"$set": mars_data}, upsert=True)
+        return "Scraping Successful!"
+        
+    if __name__ == "__main__":
+        app.run(debug=True)
