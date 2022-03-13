@@ -19,7 +19,9 @@ The two images below shows how it would look on the following devices:
 
 ![iPhone12pro](/Resources/iPhone12pro.png)
 
+
 **2. Surface Pro 7** 
+
 ![surfacepro7](/Resources/surfacepro7.png)
 
 ## Coding 
