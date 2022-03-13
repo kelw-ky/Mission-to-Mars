@@ -12,7 +12,17 @@ Mars Hemispheres: Cerberus Hemisphere, Schiaparelli Hemisphere, Syrtis Major Hem
 
 ![Mars_Hemispheres](/Resources/Mars_Hemispheres.png)
 
-### Coding 
+## On different devices
+The two images below shows how it would look on the following devices: 
+
+**1. iPhone 12 Pro**
+
+![iPhone12pro](/Resources/iPhone12pro.png)
+
+**2. Surface Pro 7** 
+![surfacepro7](/Resources/surfacepro7.png)
+
+## Coding 
 
 The following code was inserted to add the Mars hemispheres on to the website: 
 
